@@ -86,12 +86,18 @@ def start_analysis():
 
 @app.route('/recommend_friends', methods=['GET'])
 def w_youtube():
+    # call to Analytics/ML function to serve the data to this endpoint
     return {}
 
 
 @app.route('/seek_motivation', methods=['GET'])
 def recommended_songs():
-    return {}
+    # call to Analytics/ML function to serve the data to this endpoint
+    data = {"object1": {
+        "obj2": "hello",
+        "obj3": "goodbye"
+    }}
+    return jsonify(data)
 
 
 if __name__ == "__main__":
