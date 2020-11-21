@@ -29,6 +29,7 @@ def suggest_opposite(user_name):
     reference = {
         'very_positive': 2,
         'positive': 1,
+        'normal': 0,
         'negative': -1,
         'very_negative': -2
     }
@@ -40,9 +41,19 @@ def suggest_opposite(user_name):
     old_mood = reference[doc.to_dict()["mood"]]
     new_mood = -old_mood
 
-    recs = doc_ref.where('mood', '==', reverse_reference[new_mood])
+    recs = db.collection('users').where(
+        'mood', '==', reverse_reference[new_mood])
     # need to check the kind of data it returns
-    return random.choice(recs) if recs else "@sansyrox"
+    if not recs or recs is None:
+        return "sansyrox"
+
+    obj_dict = random.choice([i for i in recs.get()]
+                             ).to_dict()
+
+    rec_name = (obj_dict["additionalInfo"]["screen_name"])
+    # .additionalInfo.screen_name)
+    print(rec_name)
+    return rec_name
 
 
 def get_tweets(user_name):
@@ -63,15 +74,16 @@ def get_tweets(user_name):
     print(other_tweets)
 
 
-@app.route('/recommend_friends', methods=['GET'])
+@ app.route('/recommend_friends', methods=['GET'])
 def w_youtube():
     return {}
 
 
-@app.route('/seek_motivation', methods=['GET'])
+@ app.route('/seek_motivation', methods=['GET'])
 def recommended_songs():
     return {}
 
 
 if __name__ == "__main__":
     get_tweets("_bruhhmoment_")
+    suggest_opposite('_bruhhmoment_')
