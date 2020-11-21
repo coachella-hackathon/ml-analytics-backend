@@ -7,6 +7,7 @@ from firebase_admin import credentials, firestore
 
 import random
 from pprint import pprint
+import json
 
 cred = credentials.Certificate('./ServiceAccountKey.json')
 default_app = firebase_admin.initialize_app(cred)
@@ -63,10 +64,11 @@ def get_tweets(user_name):
     dictionary = doc.to_dict()
     additional_info = dictionary["additionalInfo"]
     for i in dictionary:
-        if i == "additionalInfo" or i == "userCategory":
+        if i == "additionalInfo" or i == "userCategory" or i == "mood":
             continue
 
         dict_object = dictionary[i]
+
         if dict_object["is_retweeted"] and dict_object["retweet_author"] != additional_info["screen_name"]:
             other_tweets.append(dict_object)
         else:
@@ -74,12 +76,20 @@ def get_tweets(user_name):
     print(other_tweets)
 
 
-@ app.route('/recommend_friends', methods=['GET'])
+@app.route('/start_analysis', methods=['GET'])
+def start_analysis():
+    # username as the parameter
+    # query the db of the username
+    # call the function of ML guys
+    return {}
+
+
+@app.route('/recommend_friends', methods=['GET'])
 def w_youtube():
     return {}
 
 
-@ app.route('/seek_motivation', methods=['GET'])
+@app.route('/seek_motivation', methods=['GET'])
 def recommended_songs():
     return {}
 
@@ -87,3 +97,4 @@ def recommended_songs():
 if __name__ == "__main__":
     get_tweets("_bruhhmoment_")
     suggest_opposite('_bruhhmoment_')
+    app.run(debug=True)
