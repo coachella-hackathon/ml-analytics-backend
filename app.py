@@ -76,26 +76,27 @@ def get_tweets(user_name):
     print(other_tweets)
 
 
-@app.route('/start_analysis', methods=['GET'])
-def start_analysis():
+@app.route('/start_analysis/<user_id>', methods=['GET'])
+def start_analysis(user_id):
     # username as the parameter
     # query the db of the username
     # call the function of ML guys
     return {}
 
 
-@app.route('/recommend_friends', methods=['GET'])
-def w_youtube():
+@app.route('/recommend_friends/<user_id>', methods=['GET'])
+def w_youtube(user_id):
     # call to Analytics/ML function to serve the data to this endpoint
     return {}
 
 
-@app.route('/seek_motivation', methods=['GET'])
-def recommended_songs():
+@app.route('/seek_motivation/<user_id>', methods=['GET'])
+def recommended_songs(user_id):
     # call to Analytics/ML function to serve the data to this endpoint
     data = {"object1": {
         "obj2": "hello",
-        "obj3": "goodbye"
+        "obj3": "goodbye",
+        "obj4": user_id
     }}
     return jsonify(data)
 
