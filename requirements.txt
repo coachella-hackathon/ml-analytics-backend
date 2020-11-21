@@ -37,3 +37,13 @@ toml==0.10.2
 uritemplate==3.0.1
 urllib3==1.26.2
 Werkzeug==1.0.1
+# twitter_emotion_recognition requirements
+h5py==2.10.0
+Keras==1.1.0
+numpy==1.16.0
+pandas==1.1.4
+python-dateutil==2.8.0
+PyYAML==5.1
+scipy==1.5.4
+Theano==1.0.4
+tensorflow==1.15.0
