@@ -1,18 +1,76 @@
 {
   "Depressed": {
-    "big_accounts": ["abc"],
-    "hashtags": ["#abc"]
+    "big_accounts": [
+      "depressionnote",
+      "headsupguys",
+      "sadgirlsclubirl",
+      "BlurtAlerts",
+      "poem_exe",
+      "BobRoss",
+      "selfcare_bot"
+    ],
+    "hashtags": [
+      "#MyTipsForMentalHealth",
+      "#selfcare",
+      "#meditation",
+      "#wellness"
+    ]
   },
   "Stressed": {
-    "big_accounts": ["abc"],
-    "hashtags": ["#abc"]
+    "big_accounts": [
+      "poem_exe",
+      "tinycarebot",
+      "EmojiAquarium",
+      "dog_rates",
+      "EmojiMeadow",
+      "selfcare_bot"
+    ],
+    "hashtags": [
+      "#nature",
+      "#calming",
+      "#relaxing",
+      "#satisfying",
+      "#meditation"
+    ]
   },
   "Cheerful": {
-    "big_accounts": ["abc"],
-    "hashtags": ["#abc"]
+    "big_accounts": [
+      "AdamMGrant",
+      "dailymuse",
+      "HarvardBiz",
+      "Forbes",
+      "CareerBuilder",
+      "lifehacker",
+      "kalesalad"
+    ],
+    "hashtags": [
+      "#motivation",
+      "#mindset",
+      "#motivationalquotes",
+      "#quotes",
+      "#inspiration",
+      "#goals",
+      "#positivity"
+    ]
   },
   "Satisfied": {
-    "big_accounts": ["abc"],
-    "hashtags": ["#abc"]
+    "big_accounts": [
+      "dog_rates",
+      "tinycarebot",
+      "bestofnextdoor",
+      "chrissyteigen",
+      "kalesalad"
+    ],
+    "hashtags": [
+      "#MindsetMatters",
+      "#Entrepreneur",
+      "#Business",
+      "#Entrepreneurship",
+      "#WontStop",
+      "#Mindset",
+      "#Success",
+      "#Hustle",
+      "#Freedom"
+    ]
   }
 }
