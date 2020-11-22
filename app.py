@@ -46,8 +46,8 @@ def update_record(user_name, mood):
 def update_tweet_emotion(user_name, happiest_tweet, saddest_tweet):
     doc_ref = db.collection('users').document(user_name)
     doc_ref.update({
-        'happiest-tweet': happiest_tweet,
-        'saddest-tweet': saddest_tweet,
+        'happiest_tweet': happiest_tweet,
+        'saddest_tweet': saddest_tweet,
     })
 
 
@@ -55,11 +55,10 @@ def suggest_opposite(user_name):
     """ A little broken and untested
     """
     reference = {
-        'very_positive': 2,
-        'positive': 1,
-        'normal': 0,
-        'negative': -1,
-        'very_negative': -2
+        'Cheerful': 2,
+        'Satisfied': 1,
+        'Depressed': -1,
+        'Stressed': -2
     }
 
     reverse_reference = {value: key for (key, value) in reference.items()}
@@ -72,7 +71,7 @@ def suggest_opposite(user_name):
     recs = db.collection('users').where(
         'mood', '==', reverse_reference[new_mood])
     # need to check the kind of data it returns
-    if not recs or recs is None:
+    if not recs or recs is None or not recs.get() or recs.get() is None:
         return "sansyrox"
 
     obj_dict = random.choice([i for i in recs.get()]
@@ -96,7 +95,7 @@ def get_tweets(user_name):
 
         dict_object = dictionary[i]
 
-        if dict_object["is_retweeted"] and dict_object["retweet_author"] != additional_info["screen_name"]:
+        if dict_object is not None and dict_object["is_retweeted"] and dict_object["retweet_author"] != additional_info["screen_name"]:
             other_tweets.append(dict_object)
         else:
             self_tweets.append(dict_object)
@@ -107,7 +106,8 @@ def get_tweets(user_name):
 @app.route('/start_analysis/<user_name>', methods=['GET'])
 def start_analysis(user_name):
     self_tweets, other_tweets = get_tweets(user_name)
-    mood_status, happiest_tweet, saddest_tweet = classify(self_tweets, other_tweets)
+    mood_status, happiest_tweet, saddest_tweet = classify(
+        self_tweets, other_tweets)
     update_record(user_name, mood_status)
     update_tweet_emotion(user_name, happiest_tweet, saddest_tweet)
     return jsonify([mood_status, happiest_tweet, saddest_tweet])
@@ -122,17 +122,6 @@ def recommend_friends(user_name):
     return jsonify(recommendations)
 
 
-@app.route('/seek_motivation/<user_name>', methods=['GET'])
-def recommend_motivation(user_name):
-    # call to Analytics/ML function to serve the data to this endpoint
-    data = {"object1": {
-        "obj2": "hello",
-        "obj3": "goodbye",
-        "obj4": user_name
-    }}
-    return jsonify(data)
-
-
 if __name__ == "__main__":
-    recommend_friends("WanderingQi")
+    # recommend_friends("WanderingQi")
     app.run(debug=True)
