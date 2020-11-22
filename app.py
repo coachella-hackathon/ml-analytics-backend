@@ -19,6 +19,19 @@ app = Flask(__name__)
 CORS(app)
 
 
+def get_user_mood(user_name):
+    doc_ref = db.collection('users').document(user_name)
+    doc = doc_ref.get()
+    dictionary = doc.to_dict()
+    current_mood = dictionary["mood"]
+    return current_mood
+
+
+def update_recommended_friend(user_name, recommendations):
+    doc_ref = db.collection('users').document(user_name)
+    doc_ref.update({'recommendations': recommendations})
+
+
 def update_record(user_name, mood):
     doc_ref = db.collection('users').document(user_name)
     doc_ref.update({'mood': mood})
@@ -88,7 +101,6 @@ def get_tweets(user_name):
 @app.route('/start_analysis/<user_name>', methods=['GET'])
 def start_analysis(user_name):
     # username as the parameter
-
     # query the db of the username; get tweets.
     tweets = get_tweets(user_name)
 
@@ -101,13 +113,16 @@ def start_analysis(user_name):
 
 
 @app.route('/recommend_friends/<user_name>', methods=['GET'])
-def w_youtube(user_name):
-    # call to Analytics/ML function to serve the data to this endpoint
-    return {}
+def recommend_friends(user_name):
+    recommendations = get_recommendations(get_user_mood(user_name))
+    recommendations["friend"] = suggest_opposite(user_name)
+
+    update_recommended_friend(user_name, recommendations)
+    return jsonify(recommendations)
 
 
 @app.route('/seek_motivation/<user_name>', methods=['GET'])
-def recommended_songs(user_name):
+def recommend_motivation(user_name):
     # call to Analytics/ML function to serve the data to this endpoint
     data = {"object1": {
         "obj2": "hello",
