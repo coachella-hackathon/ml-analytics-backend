@@ -38,4 +38,4 @@ class ClassificationModel:
             output = self.model(input_ids, token_type_ids=None,
                                 attention_mask=attention_masks)
 
-        return output.tolist()
+        return output[0].tolist()
