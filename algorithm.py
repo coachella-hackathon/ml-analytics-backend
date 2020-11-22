@@ -1,7 +1,7 @@
 import json
 import random
 from datetime import datetime
-from twitter_emotion_recognition.emotion_predictor import EmotionPredictor
+from classification_model import ClassificationModel
 
 DAYS_COEF = 10
 ACTIVITY_COEF = 7
@@ -55,25 +55,26 @@ def classify(self_tweets: list, other_tweets: list) -> str:
     :param other_tweets: tweets not owned by current user
     :return: mood_status
     """
-    model = EmotionPredictor(classification='ekman', setting='ml')
+    model = ClassificationModel()
     emotions_transformed = []
     for tweets, owned_by_user in ((self_tweets, True), (other_tweets, False)):
-        emotions = model.predict_probabilities(__get_tweet_text(tweets))
+        emotions = model.predict_emotions(__get_tweet_text(tweets))
         update_scoring(tweets, emotions, owned_by_user)
         emotions_transformed += emotions
     final_scores = list(map(lambda l: sum(l) / len(l),
                             zip(*emotions_transformed)))
-    anger, disgust, fear, joy, sadness, surprise = final_scores
-    negativity_mean = (anger + disgust + fear + sadness) / 4
-    positivity_mean = (joy + surprise) / 2
+    anger, fear, joy, love, sadness, surprise = final_scores
+    positivity = joy + love + surprise
+    negativity = anger + fear + sadness
+
     # if mean of negative emotions is greater than positive ones
-    if negativity_mean > positivity_mean:
-        if anger + disgust > fear + sadness:
+    if negativity > positivity:
+        if anger * 2 > fear + sadness:
             return "Stressed"
         else:
             return "Depressed"
     else:
-        if positivity_mean >= POSITIVITY_COEF * negativity_mean:
+        if positivity >= POSITIVITY_COEF * negativity:
             return "Cheerful"
         else:
             return "Satisfied"
