@@ -124,4 +124,4 @@ def recommend_friends(user_name):
 
 if __name__ == "__main__":
     # recommend_friends("WanderingQi")
-    app.run(debug=True)
+    app.run()
