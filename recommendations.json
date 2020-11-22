@@ -1,0 +1,18 @@
+{
+  "Depressed": {
+    "big_accounts": ["abc"],
+    "hashtags": ["#abc"]
+  },
+  "Stressed": {
+    "big_accounts": ["abc"],
+    "hashtags": ["#abc"]
+  },
+  "Cheerful": {
+    "big_accounts": ["abc"],
+    "hashtags": ["#abc"]
+  },
+  "Satisfied": {
+    "big_accounts": ["abc"],
+    "hashtags": ["#abc"]
+  }
+}
