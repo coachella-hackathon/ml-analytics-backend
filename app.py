@@ -24,6 +24,7 @@ def get_user_mood(user_name):
     doc_ref = db.collection('users').document(user_name)
     doc = doc_ref.get()
     dictionary = doc.to_dict()
+    print(dictionary)
     current_mood = dictionary["mood"]
     return current_mood
 
@@ -72,7 +73,7 @@ def suggest_opposite(user_name):
         'mood', '==', reverse_reference[new_mood])
     # need to check the kind of data it returns
     if not recs or recs is None or not recs.get() or recs.get() is None:
-        return "sansyrox"
+        return "shivaylamba"
 
     obj_dict = random.choice([i for i in recs.get()]
                              ).to_dict()
