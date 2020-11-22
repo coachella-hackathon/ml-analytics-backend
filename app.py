@@ -1,13 +1,14 @@
 from flask_cors import CORS
-from flask import Flask, render_template, request
+from flask import Flask
 from flask import jsonify
 
 import firebase_admin
 from firebase_admin import credentials, firestore
 
 import random
-from pprint import pprint
-import json
+
+from algorithm import classify, get_recommendations
+
 
 cred = credentials.Certificate('./ServiceAccountKey.json')
 default_app = firebase_admin.initialize_app(cred)
@@ -30,6 +31,11 @@ def get_user_mood(user_name):
 def update_recommended_friend(user_name, recommendations):
     doc_ref = db.collection('users').document(user_name)
     doc_ref.update({'recommendations': recommendations})
+
+
+def update_recommended_motivation(user_name, motivation):
+    doc_ref = db.collection('users').document(user_name)
+    doc_ref.update({'recommendations-motivation': motivation})
 
 
 def update_record(user_name, mood):
@@ -100,16 +106,11 @@ def get_tweets(user_name):
 
 @app.route('/start_analysis/<user_name>', methods=['GET'])
 def start_analysis(user_name):
-    # username as the parameter
-    # query the db of the username; get tweets.
-    tweets = get_tweets(user_name)
-
-    # call the function of ML guys
-    mood_status, happiest_tweet, saddest_tweet = classify(tweets)
-
-    # update DB
+    self_tweets, other_tweets = get_tweets(user_name)
+    mood_status, happiest_tweet, saddest_tweet = classify(self_tweets, other_tweets)
     update_record(user_name, mood_status)
     update_tweet_emotion(user_name, happiest_tweet, saddest_tweet)
+    return jsonify([mood_status, happiest_tweet, saddest_tweet])
 
 
 @app.route('/recommend_friends/<user_name>', methods=['GET'])
@@ -133,6 +134,5 @@ def recommend_motivation(user_name):
 
 
 if __name__ == "__main__":
-    get_tweets("_bruhhmoment_")
-    suggest_opposite('_bruhhmoment_')
+    recommend_friends("WanderingQi")
     app.run(debug=True)
